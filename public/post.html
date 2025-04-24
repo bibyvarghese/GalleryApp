@@ -1,0 +1,20 @@
+<!-- public/post.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Post - CyberSec Academy</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="auth">
+    <div class="container">
+        <h1>Create a Post</h1>
+        <form method="POST" action="/post">
+            <label>Content:</label>
+            <textarea name="content" rows="6" required></textarea><br>
+            <button type="submit">Post</button>
+        </form>
+        <a href="/dashboard">Back to Dashboard</a>
+    </div>
+</body>
+</html>

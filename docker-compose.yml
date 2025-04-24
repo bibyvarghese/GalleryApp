@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27018:27017"  # map container port to host port
+    networks:
+      - backend
+    volumes:
+      - mongodb_data:/data/db
+
+  galleryapp:
+    build: .
+    container_name: galleryapp
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  mongodb_data:

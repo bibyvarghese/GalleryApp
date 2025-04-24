@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - CyberSec Academy</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="dashboard">
+  <div class="container">
+    <h1 id="welcome" class="highlight-box"></h1>
+    
+    <nav>
+      <a href="/upload">Upload Image</a>
+      <a href="/profile">Profile</a>
+      <a href="/changepassword">Change Password</a>
+      <a href="/post">Create Post</a>
+      <a href="/logout">Logout</a>
+    </nav>
+
+    <section class="section">
+      <h2 class="section-title">Your Images</h2>
+      <div id="imageList" class="image-grid"></div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Your Posts</h2>
+      <div id="postList" class="post-list"></div>
+    </section>
+  </div>
+
+  <script>
+    fetch('/api/dashboard')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('welcome').textContent = `Welcome ${data.user.username}`;
+
+        document.getElementById('imageList').innerHTML = data.images
+          .map(img => `
+            <div class="image-card">
+              <img src="/uploads/${img.filename}" alt="User Upload" class="upload-preview" />
+            </div>
+          `).join('');
+
+        document.getElementById('postList').innerHTML = data.posts
+          .map(post => `
+            <div class="post-card">
+              <p>${post.content}</p>
+            </div>
+          `).join('');
+      });
+  </script>
+</body>
+</html>

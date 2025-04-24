@@ -1,0 +1,20 @@
+<!-- public/upload.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Image - CyberSec Academy</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="auth">
+    <div class="container">
+        <h1>Upload Image</h1>
+        <form method="POST" action="/upload" enctype="multipart/form-data">
+            <label>Select Image:</label>
+            <input type="file" name="image" accept="image/*" required><br>
+            <button type="submit">Upload</button>
+        </form>
+        <a href="/dashboard">Back to Dashboard</a>
+    </div>
+</body>
+</html>

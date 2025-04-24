@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile - CyberSec Academy</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="profile">
+    <div class="container">
+        <header>
+            <h1>User Profile</h1>
+            <nav>
+                <a href="/dashboard">Dashboard</a>
+                <a href="/changepassword">Change Password</a>
+                <a href="/logout">Logout</a>
+            </nav>
+        </header>
+        <main>
+            <h2 class="section-title">Your Profile</h2>
+            <div class="highlight-box" id="profileInfo">
+                <p><strong>Username:</strong> <span id="username">Loading...</span></p>
+                <p><strong>Email:</strong> <span id="email">Loading...</span></p>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2025 CyberSec Academy. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        fetch('/api/profile')
+            .then(res => res.json())
+            .then(data => {
+                if (data.username && data.email) {
+                    document.getElementById('username').textContent = data.username;
+                    document.getElementById('email').textContent = data.email;
+                } else {
+                    throw new Error("Invalid response from server");
+                }
+            })
+            .catch(err => {
+                console.error('Failed to load profile info:', err);
+                document.getElementById('profileInfo').innerHTML = '<p>Error loading profile info.</p>';
+            });
+    </script>
+</body>
+</html>
