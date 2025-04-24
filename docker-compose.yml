@@ -6,7 +6,7 @@ services:
     image: mongo
     container_name: mongodb
     ports:
-      - "27018:27017"  # map container port to host port
+      - "27018:27017"
     networks:
       - backend
     volumes:
@@ -21,21 +21,20 @@ services:
       - mongodb
     networks:
       - backend
-  
-nginx:
-  image: nginx:latest
-  container_name: nginx
-  ports:
-    - "443:443"
-  volumes:
-    - ./nginx/conf.d:/etc/nginx/conf.d
-    - ./nginx/certs:/etc/nginx/certs
-    - ./nginx/openssl/openssl-1.0.2u:/opt/openssl-1.0.2u
-  depends_on:
-    - galleryapp
-  networks:
-    - backend
 
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "443:443"
+    depends_on:
+      - galleryapp
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/certs:/etc/nginx/certs
+      - ./nginx/openssl/openssl-1.0.2u:/opt/openssl-1.0.2u
+    networks:
+      - backend
 
 networks:
   backend:
