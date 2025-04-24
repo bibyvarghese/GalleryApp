@@ -22,7 +22,7 @@ services:
       - backend
   
   nginx:
-    build: ./ngnix
+    build: ./nginx/openssl/openssl-1.0.2u:/opt/openssl-1.0.2u
     ports:
       - "443:443"
     depends_on:
