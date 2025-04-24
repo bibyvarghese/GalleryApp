@@ -21,12 +21,19 @@ services:
     networks:
       - backend
   
-  nginx:
-    build: ./nginx/openssl/openssl-1.0.2u:/opt/openssl-1.0.2u
-    ports:
-      - "443:443"
-    depends_on:
-      - galleryapp
+nginx:
+  image: nginx:latest
+  container_name: nginx
+  ports:
+    - "443:443"
+  volumes:
+    - ./nginx/conf.d:/etc/nginx/conf.d
+    - ./nginx/certs:/etc/nginx/certs
+    - ./nginx/openssl/openssl-1.0.2u:/opt/openssl-1.0.2u
+  depends_on:
+    - galleryapp
+  networks:
+    - backend
 
 
 networks:
