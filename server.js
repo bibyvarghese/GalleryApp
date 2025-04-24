@@ -9,7 +9,7 @@ const app = express();
 
 const HOST = process.env.HOST || '0.0.0.0'; // Accepts all IPs, including localhost and Docker
 const PORT = process.env.PORT || 3000;
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://mongodb:27018/galleryapp';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://mongodb:27017/galleryapp';
 
 // MongoDB Connection
 mongoose.connect(MONGO_URI)
