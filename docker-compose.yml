@@ -29,10 +29,8 @@ services:
     depends_on:
       - galleryapp
     volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/certs:/etc/nginx/certs
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx/html:/usr/share/nginx/html
       - ./nginx/openssl/openssl-1.0.2u:/opt/openssl-1.0.2u
     networks:
       - backend
