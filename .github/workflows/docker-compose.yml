@@ -38,7 +38,7 @@ jobs:
           push: true
           tags: biby05/galleryapp:latest
           script: |
-            cd /home/biby/Internship
+            cd /home/biby/GalleryApp
             docker-compose pull
             docker-compose down
             docker-compose up -d --build
