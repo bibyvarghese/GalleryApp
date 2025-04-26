@@ -1,4 +1,5 @@
----
+version: '3.8'
+
 services:
   mongodb:
     image: mongo
@@ -21,17 +22,17 @@ services:
       - backend
 
   nginx:
-    image: nginx:latest
+    image: nginx:alpine
     container_name: nginx
     ports:
-      - "443:443"
       - "80:80"
-    depends_on:
-      - galleryapp
+      - "443:443"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/certs:/etc/nginx/certs
-      - ./nginx/openssl/openssl-1.0.2u:/opt/openssl-1.0.2u
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+    depends_on:
+      - galleryapp
     networks:
       - backend
 
@@ -41,3 +42,4 @@ networks:
 
 volumes:
   mongodb_data:
+
