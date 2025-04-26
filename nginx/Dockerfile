@@ -1,35 +1,23 @@
-FROM debian:bullseye
+# Use the official Nginx image as the base
+FROM nginx:alpine
 
-# Install necessary build dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential wget curl zlib1g-dev libpcre3 libpcre3-dev libssl-dev \
-    nginx
+# Install OpenSSL 1.0.2
+RUN apk update && apk add --no-cache \
+    openssl=1.0.2u-r0 \
+    && rm -rf /var/cache/apk/*
 
-# Copy OpenSSL source (if you still need to compile a specific version)
-COPY openssl/openssl-1.1.1l /usr/local/src/openssl-1.1.1l
+# Copy the main nginx.conf to the container
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 
-# Optionally, you could compile OpenSSL from source (but this is rarely necessary nowadays)
-# RUN cd /usr/local/src && \
-#     wget https://www.openssl.org/source/openssl-1.1.1l.tar.gz && \
-#     tar -xzf openssl-1.1.1l.tar.gz && \
-#     cd openssl-1.1.1l && \
-#     ./config && make && make install
+# Copy the default.conf to the nginx conf.d directory
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 
-# Copy NGINX source and build it (or skip if you use the NGINX package)
-# RUN cd /usr/local/src && \
-#     wget http://nginx.org/download/nginx-1.20.2.tar.gz && \
-#     tar -xzf nginx-1.20.2.tar.gz && \
-#     cd nginx-1.20.2 && \
-#     ./configure --with-http_ssl_module --with-openssl=../openssl-1.1.1l && \
-#     make && make install
+# Copy SSL certificate files to the container
+COPY ./nginx/certs/nginx-selfsigned.crt /etc/nginx/certs/nginx-selfsigned.crt
+COPY ./nginx/certs/nginx-selfsigned.key /etc/nginx/certs/nginx-selfsigned.key
 
-# Copy the NGINX configuration and SSL certs
-COPY conf.d/nginx.conf /etc/nginx/nginx.conf
-COPY ssl/certs/server.crt /etc/ssl/certs/server.crt
-COPY ssl/private/server.key /etc/ssl/private/server.key
+# Expose ports 80 (HTTP) and 443 (HTTPS)
+EXPOSE 80 443
 
-# Expose ports
-EXPOSE 443
-
-# Set the command to run NGINX
+# Run Nginx in the foreground
 CMD ["nginx", "-g", "daemon off;"]
