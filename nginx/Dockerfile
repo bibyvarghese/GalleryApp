@@ -2,8 +2,16 @@
 FROM nginx:alpine
 
 # Install OpenSSL 1.0.2
-RUN apk update && apk add --no-cache \
-    openssl=1.0.2u-r0 \
+# Install dependencies
+RUN apk add --no-cache build-base wget
+
+# Download and install OpenSSL 1.0.2u from source
+RUN wget https://www.openssl.org/source/openssl-1.0.2u.tar.gz \
+    && tar -xvzf openssl-1.0.2u.tar.gz \
+    && cd openssl-1.0.2u \
+    && ./config \
+    && make \
+    && make install \
     && rm -rf /var/cache/apk/*
 
 # Copy the main nginx.conf to the container
