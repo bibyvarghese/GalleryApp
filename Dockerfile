@@ -57,8 +57,9 @@ COPY ./apache/certs/nginx-selfsigned.key /usr/local/apache2/conf/ssl/nginx-selfs
 
 # Copy site configurations
 COPY ./apache/httpd.conf /usr/local/apache2/conf/httpd.conf
-COPY ./apache/extra/httpd-vhosts.conf /usr/local/apache2/conf/extra/httpd-vhosts.conf
-COPY ./apache/extra/httpd-ssl.conf /usr/local/apache2/conf/extra/httpd-ssl.conf
+COPY ./apache/000-default.conf /usr/local/apache2/conf/extra/httpd-vhosts.conf
+COPY ./apache/default-ssl.conf /usr/local/apache2/conf/extra/httpd-ssl.conf
+
 
 # Expose ports
 EXPOSE 80 443
