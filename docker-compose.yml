@@ -22,7 +22,7 @@ services:
       - backend
 
   nginx:
-    image: nginx:alpine
+    image: nginx:1.8
     container_name: nginx
     ports:
       - "80:80"
