@@ -19,7 +19,7 @@ services:
     depends_on:
       - mongodb
     networks:
-      - backend
+      - galleryapp_backend
 
   nginx:
     image: nginx:alpine
