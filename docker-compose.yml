@@ -13,6 +13,12 @@ services:
     environment:
       - MONGO_INITDB_DATABASE=galleryapp  # Initialize DB (optional)
     restart: unless-stopped  # Auto-restart on failure
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.runCommand('ping')"]
+      interval: 30s
+      retries: 3
+      start_period: 10s
+      timeout: 10s
 
   galleryapp:
     build: .
