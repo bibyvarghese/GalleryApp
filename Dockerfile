@@ -1,21 +1,20 @@
-# Use official Apache image
-FROM httpd:2.4
+# Use an official Node.js runtime as a base image
+FROM node:16
 
-# Copy custom Apache configs into container
-COPY ./apache/httpd.conf /usr/local/apache2/conf/httpd.conf
-COPY ./apache/000-default.conf /usr/local/apache2/conf/extra/000-default.conf
-COPY ./apache/default-ssl.conf /usr/local/apache2/conf/extra/default-ssl.conf
+# Set the working directory inside the container
+WORKDIR /usr/src/app
 
-# Copy SSL certificates
-COPY ./apache/certs/nginx-selfsigned.crt /usr/local/apache2/conf/ssl/nginx-selfsigned.crt
-COPY ./apache/certs/nginx-selfsigned.key /usr/local/apache2/conf/ssl/nginx-selfsigned.key
+# Copy package.json and package-lock.json to install dependencies
+COPY package*.json ./
 
-# Copy your app files if needed (optional - if web files are needed in Apache)
-# COPY ./public/ /usr/local/apache2/htdocs/
+# Install the app dependencies
+RUN npm install
 
-# Expose ports
-EXPOSE 80
-EXPOSE 443
+# Copy the rest of the app's source code into the container
+COPY . .
 
-# Start Apache server
-CMD ["httpd-foreground"]
+# Expose the app on port 3000
+EXPOSE 3000
+
+# Run the app
+CMD ["npm", "start"]
