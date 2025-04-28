@@ -1,34 +1,44 @@
----
+version: '3.8'
 
 services:
   mongodb:
-    image: mongo
+    image: mongo:latest
     container_name: mongodb
     ports:
-      - "27018:27017"
+      - "27018:27017"  # Exposed on host port 27018
     networks:
       - backend
     volumes:
       - mongodb_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=galleryapp  # Initialize DB (optional)
+    restart: unless-stopped  # Auto-restart on failure
 
   galleryapp:
     build: .
     container_name: galleryapp
     ports:
-      - "3000:3000"
+      - "3000:3000"  # Exposed for direct access (dev/testing)
     depends_on:
-      - mongodb
+      mongodb:
+        condition: service_healthy  # Wait for MongoDB to be ready
     networks:
       - backend
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongodb:27017/galleryapp
+    restart: unless-stopped
 
   nginx:
     image: nginx:latest
     container_name: nginx-proxy
     ports:
-      - "4443:443"
+      - "80:80"     # HTTP
+      - "443:443"   # HTTPS (instead of 4443 for standard HTTPS)
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/certs:/etc/nginx/certs:ro
+      - ./nginx/html:/usr/share/nginx/html:ro  # Static files (optional)
     depends_on:
       - galleryapp
     networks:
@@ -41,4 +51,3 @@ networks:
 
 volumes:
   mongodb_data:
-
