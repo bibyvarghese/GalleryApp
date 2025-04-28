@@ -25,9 +25,6 @@ services:
     container_name: galleryapp
     ports:
       - "3000:3000"  # Exposed for direct access (dev/testing)
-    depends_on:
-      mongodb:
-        condition: service_healthy  # Wait for MongoDB to be ready
     networks:
       - backend
     environment:
