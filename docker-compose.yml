@@ -35,6 +35,8 @@ services:
       - galleryapp
     networks:
       - backend
+    volumes:
+    - ./apache/certs:/etc/apache2/certs
     restart: unless-stopped
 
 volumes:
