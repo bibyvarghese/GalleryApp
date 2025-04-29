@@ -48,6 +48,18 @@ services:
       - backend
     restart: unless-stopped
 
+  apache:
+    build: .
+    ports:
+      - "443:443"
+    depends_on:
+      - galleryapp
+
+  galleryapp:
+    image: your-gallery-app-image
+    ports:
+      - "3000:3000"
+
 networks:
   backend:
     driver: bridge
