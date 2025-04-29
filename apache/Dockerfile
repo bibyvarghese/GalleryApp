@@ -5,7 +5,7 @@ FROM php:8.2-apache
 RUN a2enmod ssl
 
 # Copy VirtualHost SSL config (HTTPS)
-COPY apache/apache.conf /etc/apache2/sites-available/default-ssl.conf
+COPY apache.conf /etc/apache2/sites-available/default-ssl.conf
 
 # Optional OpenSSL config (for cert generation, if needed)
 COPY openssl.cnf /etc/apache2/openssl.cnf
