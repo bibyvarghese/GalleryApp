@@ -11,8 +11,8 @@ services:
     volumes:
       - mongodb_data:/data/db
     environment:
-      - MONGO_INITDB_DATABASE=galleryapp  # Initialize DB (optional)
-    restart: unless-stopped  # Auto-restart on failure
+      - MONGO_INITDB_DATABASE=galleryapp
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "mongo", "--eval", "db.runCommand('ping')"]
       interval: 30s
@@ -24,7 +24,7 @@ services:
     build: .
     container_name: galleryapp
     ports:
-      - "3000:3000"  # Exposed for direct access (dev/testing)
+      - "3000:3000"
     networks:
       - backend
     environment:
@@ -32,19 +32,16 @@ services:
       - MONGODB_URI=mongodb://mongodb:27017/galleryapp
     restart: unless-stopped
 
-  
-
   apache:
-    build: .
+    build: ./apache 
+    container_name: apache
     ports:
       - "443:443"
     depends_on:
       - galleryapp
-
-  galleryapp:
-    image: galleryap
-    ports:
-      - "3000:3000"
+    networks:
+      - backend
+    restart: unless-stopped
 
 networks:
   backend:
