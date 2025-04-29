@@ -8,7 +8,7 @@ RUN a2enmod ssl
 COPY apache/apache.conf /etc/apache2/sites-available/default-ssl.conf
 
 # Optional OpenSSL config (for cert generation, if needed)
-COPY apache/openssl.cnf /etc/apache2/openssl.cnf
+COPY openssl.cnf /etc/apache2/openssl.cnf
 
 # Copy your self-signed certs and keys
 COPY certs/ /etc/apache2/certs/
