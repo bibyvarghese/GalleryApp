@@ -20,4 +20,5 @@ RUN a2dissite 000-default
 # Expose HTTPS port
 EXPOSE 443
 
-CMD ["apache2ctl", "-D", "FOREGROUND"]
+CMD ["apache2-foreground"]
+
