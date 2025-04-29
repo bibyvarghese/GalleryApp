@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
 
   galleryapp:
-    build: ./galleryapp
+    build: .
     container_name: galleryapp
     ports:
       - "3000:3000"
