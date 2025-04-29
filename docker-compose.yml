@@ -38,6 +38,18 @@ services:
     volumes:
     - ./apache/certs:/etc/apache2/certs
     restart: unless-stopped
+  
+   nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - galleryapp
+    networks:
+      - backend
+    restart: unless-stopped
 
 volumes:
   mongodb_data:
