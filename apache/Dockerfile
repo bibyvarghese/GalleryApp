@@ -5,6 +5,7 @@ RUN apt-get update && \
     a2enmod ssl proxy proxy_http && \
     apt-get install -y apache2 apache2-utils apache2-bin apache2-data && \
     a2enmod ssl proxy proxy_http headers
+    a2enmod ssl proxy proxy_http rewrite
 
 COPY certs/server.crt /etc/apache2/certs/selfsigned.crt
 COPY certs/server.key /etc/apache2/certs/selfsigned.key
