@@ -1,8 +1,19 @@
-FROM httpd:2.4
+# Base image with Apache + PHP 8.2
+FROM php:8.2-apache
 
-# Copy custom config
-COPY httpd.conf /usr/local/apache2/conf/httpd.conf
+RUN docker-php-ext-install mysqli
+RUN a2enmod ssl
 
-# Copy certs
-COPY certs/server.crt /etc/apache2/ssl/server.crt
-COPY certs/server.key /etc/apache2/ssl/server.key
+# SSL VirtualHost config
+COPY apache/apache.conf /etc/apache2/sites-available/000-default.conf
+
+# Optional OpenSSL config (not always needed)
+COPY apache/openssl.cnf /etc/apache2/openssl.cnf
+
+# Self-signed certs
+COPY apache/certs/ /etc/apache2/certs/
+
+# PHP files (optional)
+COPY apache/html/ /var/www/html/
+
+EXPOSE 443
