@@ -2,7 +2,10 @@
 FROM php:8.2-apache
 
 # Enable SSL module
+RUN a2enmod proxy
+RUN a2enmod proxy_http
 RUN a2enmod ssl
+
 
 # Copy VirtualHost SSL config (HTTPS)
 COPY apache.conf /etc/apache2/sites-available/default-ssl.conf
