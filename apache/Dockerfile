@@ -14,4 +14,4 @@ COPY apache.conf /etc/apache2/sites-available/default-ssl.conf
 
 EXPOSE 443
 
-CMD ["apache2ctl", "-D", "FOREGROUND"]
+CMD ["apache2ctl", "-D", "foreground"]
