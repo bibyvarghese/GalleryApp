@@ -12,8 +12,7 @@ COPY certs/selfsigned.crt /etc/apache2/certs/selfsigned.crt
 COPY certs/selfsigned.key /etc/apache2/certs/selfsigned.key
 COPY apache.conf /etc/apache2/sites-available/default-ssl.conf
 
-# Optional: copy site content
-COPY index.html /var/www/html/index.html
+
 
 EXPOSE 443
 
