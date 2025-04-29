@@ -1,17 +1,23 @@
-# Base image with Apache + PHP (we're not using PHP though)
+# Base image with Apache (PHP is optional, but fine)
 FROM php:8.2-apache
 
 # Enable SSL module
 RUN a2enmod ssl
 
-# Copy SSL VirtualHost config
-COPY apache/apache.conf /etc/apache2/sites-available/000-default.conf
+# Copy VirtualHost SSL config (HTTPS)
+COPY apache/apache.conf /etc/apache2/sites-available/default-ssl.conf
 
-# Optional OpenSSL config (if needed by scripts/tools)
-COPY openssl.cnf /etc/apache2/openssl.cnf
+# Optional OpenSSL config (for cert generation, if needed)
+COPY apache/openssl.cnf /etc/apache2/openssl.cnf
 
-# Self-signed certs
+# Copy your self-signed certs and keys
 COPY certs/ /etc/apache2/certs/
 
-# Expose HTTPS port
+# Enable the SSL site
+RUN a2ensite default-ssl
+
+# Expose the HTTPS port
 EXPOSE 443
+
+# Start Apache
+CMD ["apache2-foreground"]
