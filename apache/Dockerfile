@@ -1,26 +1,20 @@
-# Base image with Apache (PHP is optional, but fine)
-FROM php:8.2-apache
+FROM debian:bullseye
 
-# Enable SSL module
-RUN a2enmod proxy
-RUN a2enmod proxy_http
-RUN a2enmod ssl
+# Install Apache and SSL tools
+RUN apt-get update && \
+    apt-get install -y apache2 openssl && \
+    a2enmod ssl && \
+    a2ensite default-ssl && \
+    apt-get clean
 
-
-# Copy VirtualHost SSL config (HTTPS)
+# Copy SSL certs and config
+COPY certs/selfsigned.crt /etc/apache2/certs/selfsigned.crt
+COPY certs/selfsigned.key /etc/apache2/certs/selfsigned.key
 COPY apache.conf /etc/apache2/sites-available/default-ssl.conf
 
-# Optional OpenSSL config (for cert generation, if needed)
-COPY openssl.cnf /etc/apache2/openssl.cnf
+# Optional: copy site content
+COPY index.html /var/www/html/index.html
 
-# Copy your self-signed certs and keys
-COPY certs/ /etc/apache2/certs/
-
-# Enable the SSL site
-RUN a2ensite default-ssl
-
-# Expose the HTTPS port
 EXPOSE 443
 
-# Start Apache
-CMD ["apache2-foreground"]
+CMD ["apache2ctl", "-D", "FOREGROUND"]
