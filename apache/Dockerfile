@@ -11,7 +11,7 @@ COPY apache/apache.conf /etc/apache2/sites-available/000-default.conf
 COPY apache/openssl.cnf /etc/apache2/openssl.cnf
 
 # Self-signed certs
-COPY apache/certs/ /etc/apache2/certs/
+COPY certs/ /etc/apache2/certs/
 
 # Expose HTTPS port
 EXPOSE 443
