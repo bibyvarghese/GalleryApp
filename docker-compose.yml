@@ -35,6 +35,7 @@ services:
       - galleryapp
     volumes:
       - ./nginx/certs:/etc/nginx/certs
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf 
     networks:
       - backend
     restart: unless-stopped
